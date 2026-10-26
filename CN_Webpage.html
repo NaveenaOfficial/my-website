@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bonam Venkata Chalamayya Engineering College</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fb;
+            text-align: center;
+        }
+
+        header {
+            padding: 25px 10px;
+            background-color: white;
+            color: red;
+            font-family: Georgia, serif;
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: #173f7a;
+            margin-top: 30px;
+        }
+
+        .menu {
+            position: relative;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            padding: 11px 15px;
+            font-size: 15px;
+            border-radius: 5px;
+        }
+
+        .main-button {
+            background-color: #174ea6;
+            color: white;
+            font-weight: bold;
+        }
+
+        .main-button:hover {
+            background-color: #103776;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 165px;
+            padding: 5px;
+            background-color: white;
+            border-radius: 7px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            text-align: left;
+        }
+
+        .dropdown button {
+            display: block;
+            width: 100%;
+            margin: 2px 0;
+            text-align: left;
+            background: transparent;
+        }
+
+        .dropdown button:hover {
+            background-color: #e8eef7;
+        }
+
+        /* Nested dropdowns open to the right */
+        .submenu {
+            position: relative;
+        }
+
+        .submenu > .dropdown {
+            top: 0;
+            left: 100%;
+            margin-left: 4px;
+        }
+
+        .submenu > button::after {
+            content: "  ▶";
+            float: right;
+            font-size: 10px;
+        }
+
+        /* Department dropdown */
+        #departments button {
+            color: #1769aa;
+            font-family: Georgia, serif;
+        }
+
+        /* CSE Allied dropdown */
+        #cseAllied button {
+            color: #16834a;
+            font-family: "Trebuchet MS", sans-serif;
+        }
+
+        /* CAD and year dropdown */
+        #cadMenu button {
+            color: #d96b00;
+            font-family: "Courier New", monospace;
+        }
+
+        /* Register numbers */
+        #registers {
+            max-height: 300px;
+            overflow-y: auto;
+            min-width: 175px;
+        }
+
+        #registers button {
+            color: #c2185b;
+            font-family: "Lucida Console", monospace;
+            font-size: 13px;
+        }
+
+        /* Self-introduction */
+        #introduction {
+            display: none;
+            max-width: 650px;
+            margin: 35px auto;
+            padding: 25px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
+            color: #333;
+            line-height: 1.8;
+        }
+
+        #introduction h2 {
+            margin-top: 0;
+            color: #087f5b;
+        }
+
+        #introduction p {
+            font-size: 17px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                font-size: 21px;
+            }
+
+            #introduction {
+                margin: 25px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        Bonam Venkata Chalamayya Engineering College
+    </header>
+
+    <h2>DEPARTMENTS</h2>
+
+    <div class="menu">
+
+        <button class="main-button"
+                onclick="toggleMenu('departments')">
+            Departments ▼
+        </button>
+
+        <div class="dropdown" id="departments">
+
+            <button onclick="selectDepartment()">Civil</button>
+            <button onclick="selectDepartment()">EEE</button>
+            <button onclick="selectDepartment()">Mech</button>
+            <button onclick="selectDepartment()">ECE</button>
+
+            <!-- CSE Allied -->
+            <div class="submenu">
+
+                <button onclick="toggleMenu('cseAllied')">
+                    CSE Allied
+                </button>
+
+                <div class="dropdown" id="cseAllied">
+
+                    <!-- CAD -->
+                    <div class="submenu">
+
+                        <button onclick="toggleMenu('cadMenu')">
+                            CAD
+                        </button>
+
+                        <div class="dropdown" id="cadMenu">
+
+                            <button onclick="selectYear()">
+                                2 Year
+                            </button>
+
+                            <!-- 3 Year -->
+                            <div class="submenu">
+
+                                <button onclick="toggleMenu('registers')">
+                                    3 Year
+                                </button>
+
+                                <div class="dropdown" id="registers">
+                                    <!-- Register numbers generated using JavaScript -->
+                                </div>
+
+                            </div>
+
+                            <button onclick="selectYear()">
+                                4 Year
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <button onclick="selectDepartment()">AIML</button>
+                    <button onclick="selectDepartment()">CSM</button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Introduction appears only for 24221A4517 -->
+    <section id="introduction">
+
+        <h2>Self Introduction</h2>
+
+        <p id="introText"></p>
+
+    </section>
+
+    <script>
+        // Generate register numbers from 24221A4501 to 24221A4565
+        const registerList = document.getElementById("registers");
+        const skipList=[18,27,29,38,46];
+        for (let i = 1; i <= 65; i++) {
+        if (skipList.includes(i)) 
+                continue; // Skip the numbers in the skipList
+            
+            const registerNumber =
+                "24221A45" + String(i).padStart(2, "0");
+
+            const button = document.createElement("button");
+
+            button.textContent = registerNumber;
+
+            button.onclick = function () {
+                if(registerNumber === "24221A4517") {
+                    showIntroduction();
+                } else {
+                    closeAllMenus();
+                    document.getElementById("introduction").style.display = "none";
+                    document.getElementById("introText").textContent = "";
+                }
+            }
+            registerList.appendChild(button);
+        }
+        for (let i = 1; i <= 6; i++) {
+
+            const registerNumber =
+                "25221A45" + String(i).padStart(2, "0");
+
+            const button = document.createElement("button");
+
+            button.textContent = registerNumber;
+
+            button.onclick = function () {
+            }
+            registerList.appendChild(button);
+        }
+
+
+                // Only this register number can display the introduction
+        if (registerNumber === "24221A4517") {
+             showIntroduction();
+        } else {
+             closeAllMenus();
+
+                    // Ensure no introduction is shown for other numbers
+             document.getElementById("introduction").style.display = "none";
+             document.getElementById("introText").textContent = "";
+            }
+
+            registerList.appendChild(button);
+    
+        // Open and close dropdowns
+        function toggleMenu(id) {
+
+            const selectedMenu = document.getElementById(id);
+            const isOpen = selectedMenu.style.display === "block";
+
+            document.querySelectorAll(".dropdown").forEach(menu => {
+
+                // Keep the selected dropdown and its parent menus open
+                if (menu === selectedMenu || menu.contains(selectedMenu)) {
+                    return;
+                }
+
+                menu.style.display = "none";
+            });
+
+            if (isOpen) {
+
+                selectedMenu.style.display = "none";
+
+                selectedMenu.querySelectorAll(".dropdown").forEach(child => {
+                    child.style.display = "none";
+                });
+
+            } else {
+
+                selectedMenu.style.display = "block";
+
+            }
+
+            // Hide the introduction while navigating the menus
+            document.getElementById("introduction").style.display = "none";
+            document.getElementById("introText").textContent = "";
+        }
+
+        // Close every dropdown
+        function closeAllMenus() {
+
+            document.querySelectorAll(".dropdown").forEach(menu => {
+                menu.style.display = "none";
+            });
+
+        }
+
+        // Department selection
+        function selectDepartment() {
+
+            closeAllMenus();
+
+            document.getElementById("introduction").style.display = "none";
+            document.getElementById("introText").textContent = "";
+
+        }
+
+        // Year selection
+        function selectYear() {
+
+            closeAllMenus();
+
+            document.getElementById("introduction").style.display = "none";
+            document.getElementById("introText").textContent = "";
+
+        }
+
+        // Display self-introduction for 24221A4517 only
+        function showIntroduction() {
+
+            closeAllMenus();
+
+            document.getElementById("introText").textContent =
+                "Hello everyone! My name is Naveena. " +
+                "I am a student of Bonam Venkata Chalamayya Engineering College. " +
+                "I am interested in learning new technologies and improving my technical skills. " +
+                "My goal is to gain knowledge, develop practical skills, and build a successful career. " +
+                "Thank you!";
+
+            document.getElementById("introduction").style.display = "block";
+
+            document.getElementById("introduction").scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+    </script>
+
+</body>
+</html>
